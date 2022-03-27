@@ -67,10 +67,11 @@ def run_simulation(scheduler, vehicles):
     print("Average timespan: {}, total vehicle number: {}".format(str(total_time/end_number),\
         str(end_number)))
     print(str(deadlines_missed) + ' deadlines missed.')
+    traci.close()
 
 if __name__ == "__main__":
-    sumo_binary = checkBinary('sumo-gui')
-    # sumo_binary = checkBinary('sumo')#use this line if you do not want the UI of SUMO
+    #sumo_binary = checkBinary('sumo-gui')
+    sumo_binary = checkBinary('sumo')#use this line if you do not want the UI of SUMO
 
     # parse config file for map file name
     dom = parse("./configurations/myconfig.sumocfg")
