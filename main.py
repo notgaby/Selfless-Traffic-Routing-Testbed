@@ -8,7 +8,8 @@ import sys
 from xml.dom.minidom import parse, parseString
 from core.Util import *
 from controller.RouteController import *
-from controller.DijkstraController import DijkstraPolicy
+#from controller.DijkstraController import DijkstraPolicy
+from controller.GabySTRController import GabySTRController
 from core.target_vehicles_generation_protocols import *
 
 if 'SUMO_HOME' in os.environ:
@@ -49,9 +50,9 @@ def get_controlled_vehicles(route_filename, connection_info, \
 
     return vehicle_dict
 
-def test_dijkstra_policy(vehicles):
-    print("Testing Dijkstra's Algorithm Route Controller")
-    scheduler = DijkstraPolicy(init_connection_info)
+def test_gabySTR_policy(vehicles):
+    print("Testing self STR Algorithm Route Controller")
+    scheduler = GabySTRController(init_connection_info)
     run_simulation(scheduler, vehicles)
 
 
@@ -85,9 +86,12 @@ if __name__ == "__main__":
     route_file_node = dom.getElementsByTagName('route-files')
     route_file_attr = route_file_node[0].attributes
     route_file = "./configurations/"+route_file_attr['value'].nodeValue
+
+    #modify number of controlled and uncontrolled vehicles here
     vehicles = get_controlled_vehicles(route_file, init_connection_info, 10, 50)
+
     #print the controlled vehicles generated
     for vid, v in vehicles.items():
         print("id: {}, destination: {}, start time:{}, deadline: {};".format(vid, \
             v.destination, v.start_time, v.deadline))
-    test_dijkstra_policy(vehicles)
+    test_gabySTR_policy(vehicles)
